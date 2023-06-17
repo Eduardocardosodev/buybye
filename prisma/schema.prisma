@@ -1,0 +1,67 @@
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "mysql"
+  url      = env("DATABASE_URL")
+}
+
+model Competidores {
+  id              Int    @id @default(autoincrement())
+  nome_competidor String
+  nivel_cabeca    Int
+  nivel_pe        Int
+
+  @@map("competidor")
+}
+
+model Eventos {
+  id                    Int                @id @default(autoincrement())
+  nome_evento           String             @unique
+  vlr_inscricao         Decimal            @db.Decimal(4, 2)
+  qtd_inscricao_sorteio Int
+  data_hr_prova         DateTime
+  regrasEvento          RegrasEvento[]
+  premios               Premios[]
+  inscricaoSorteio      InscricaoSorteio[]
+
+  @@map("evento")
+}
+
+model RegrasEvento {
+  id          Int @id @default(autoincrement())
+  soma_nivel  Int
+  qtd_corrida Int
+
+  evento    Eventos? @relation(references: [id], fields: [id_evento])
+  id_evento Int?
+
+  @@map("regra_evento")
+}
+
+model Premios {
+  id      Int @id @default(autoincrement())
+  posicao Int
+
+  evento    Eventos? @relation(references: [id], fields: [id_evento])
+  id_evento Int?
+
+  premio String
+
+  @@map("premio")
+}
+
+model InscricaoSorteio {
+  id               Int      @id @default(autoincrement())
+  id_compet_cabeca Int
+  id_compet_pe     Int
+  qtd_inscricao    Int
+  evento           Eventos? @relation(references: [id], fields: [id_evento])
+  id_evento        Int?
+
+  @@map("inscricao_sorteio")
+}
