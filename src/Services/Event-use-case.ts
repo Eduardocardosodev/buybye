@@ -1,6 +1,7 @@
 import { DbEventWithRulesRepository } from '../Repositories/EventWithRulesRepository';
 import { DbEventsRepository } from '../Repositories/EventsRepository';
 import { DbRulesRepository } from '../Repositories/RulesRepository';
+import { AwardDTO, CreateAwardDTO } from '../dto/Award';
 import { CreateCompetidorDTO } from '../dto/CompetidorDTO';
 import { CreateEventDTO, EventDTO } from '../dto/EventDTO';
 import { CreateRuleDTO, RuleDTO } from '../dto/RuleDTO';
@@ -46,6 +47,15 @@ export class EventUseCase {
             id_evento: ruleDTO.id_evento,
             qtd_corrida: ruleDTO.qtd_corrida,
             soma_nivel: ruleDTO.soma_nivel,
+          };
+        }) || [],
+      premios:
+        prismaUser.premios?.map((awardDTO: AwardDTO) => {
+          return {
+            id: awardDTO.id,
+            id_evento: awardDTO.id_evento,
+            posicao: awardDTO.posicao,
+            premio: awardDTO.premio,
           };
         }) || [],
     };
@@ -104,11 +114,13 @@ export class EventUseCase {
 
   public async createEventWithRules(
     eventData: CreateEventDTO,
-    ruleData: CreateRuleDTO[]
+    ruleData: CreateRuleDTO[],
+    awardData: CreateAwardDTO[]
   ): Promise<Events> {
     const createdEvent = await this.eventsRulesRepository.createEventWithRules(
       eventData,
-      ruleData
+      ruleData,
+      awardData
     );
     // Processar outras ações ou retornar o evento criado, se necessário
     return createdEvent;

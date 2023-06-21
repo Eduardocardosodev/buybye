@@ -55,9 +55,8 @@ export class EventController {
         qtd_inscricao_sorteio,
         data_hr_prova,
         regras,
+        premios,
       } = req.body;
-
-      const { id_evento, qtd_corrida, soma_nivel } = req.body.regras;
 
       await this.eventUseCase.createEventWithRules(
         {
@@ -66,7 +65,8 @@ export class EventController {
           qtd_inscricao_sorteio,
           data_hr_prova,
         },
-        regras
+        regras,
+        premios
       );
 
       res.status(201).json({ message: 'Evento criado com sucesso.' });

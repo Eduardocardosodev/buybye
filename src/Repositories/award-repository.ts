@@ -1,12 +1,10 @@
 import { Rules } from '../entities/Rules';
 import { CreateRuleDTO, RuleDTO } from '../dto/RuleDTO';
 import { CreateEventDTO, EventDTO } from '../dto/EventDTO';
-import { CreateAwardDTO } from '../dto/Award';
 
-export interface EventRulesRepository {
+export interface AwardRepository {
   createEventWithRules(
     eventData: CreateEventDTO,
-    ruleData: CreateRuleDTO[],
-    awardData: CreateAwardDTO[]
+    ruleData: CreateRuleDTO[]
   ): Promise<EventDTO>;
 }

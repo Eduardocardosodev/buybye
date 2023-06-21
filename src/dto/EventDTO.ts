@@ -1,6 +1,7 @@
 import { Rules } from '../entities/Rules';
 import Decimal from 'decimal.js';
 import { RuleDTO } from './RuleDTO';
+import { AwardDTO } from './Award';
 
 export interface CreateEventDTO {
   id?: number;
@@ -17,4 +18,5 @@ export interface EventDTO {
   qtd_inscricao_sorteio: number;
   data_hr_prova: Date;
   regrasEvento?: RuleDTO[];
+  premios?: AwardDTO[];
 }

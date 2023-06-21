@@ -10,6 +10,7 @@ export class DbEventsRepository implements EventsRepository {
       orderBy: [{ id: 'desc' }],
       include: {
         regrasEvento: true,
+        premios: true,
       },
     });
   }
