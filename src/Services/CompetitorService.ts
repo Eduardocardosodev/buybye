@@ -2,6 +2,7 @@ import { DbCompetidorRepository } from '../Repositories/CompetidorRepository';
 import { CompetidorDTO, CreateCompetidorDTO } from '../dto/CompetidorDTO';
 import { Competidor } from '../entities/Competidor';
 import { CompetitorNotFound } from '../errors/CompetitorNotFound';
+import { hash } from 'bcryptjs';
 
 export class CompetitorService {
   constructor(private competitorRepository: DbCompetidorRepository) {}
@@ -14,6 +15,8 @@ export class CompetitorService {
       nome_competidor: competitorDTO.nome_competidor,
       nivel_cabeca: competitorDTO.nivel_cabeca,
       nivel_pe: competitorDTO.nivel_pe,
+      senha: competitorDTO.senha,
+      email: competitorDTO.email,
     };
   }
 
@@ -42,9 +45,15 @@ export class CompetitorService {
   public async createCompetitor(
     competitorDTO: CreateCompetidorDTO
   ): Promise<Competidor> {
-    const createCompetitor = await this.competitorRepository.createCompetitor(
-      competitorDTO
-    );
+    const password_hash = await hash(competitorDTO.senha, 6);
+
+    const createCompetitor = await this.competitorRepository.createCompetitor({
+      nome_competidor: competitorDTO.nome_competidor,
+      nivel_cabeca: competitorDTO.nivel_cabeca,
+      nivel_pe: competitorDTO.nivel_pe,
+      senha: password_hash,
+      email: competitorDTO.email,
+    });
 
     return this.mapCompetitorDTOToCompetitor(createCompetitor);
   }

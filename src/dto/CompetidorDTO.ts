@@ -3,6 +3,8 @@ export interface CreateCompetidorDTO {
   nome_competidor: string;
   nivel_cabeca: number;
   nivel_pe: number;
+  senha: string;
+  email: string;
 }
 
 export interface CompetidorDTO {
@@ -10,4 +12,6 @@ export interface CompetidorDTO {
   nome_competidor: string;
   nivel_cabeca: number;
   nivel_pe: number;
+  senha: string;
+  email: string;
 }

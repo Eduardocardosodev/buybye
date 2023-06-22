@@ -47,12 +47,15 @@ export class CompetitorController {
     try {
       const competitorUseCase = makeCompetitorUseCase();
 
-      const { nome_competidor, nivel_cabeca, nivel_pe } = req.body;
+      const { nome_competidor, nivel_cabeca, nivel_pe, senha, email } =
+        req.body;
 
       await competitorUseCase.createCompetitor({
         nome_competidor,
         nivel_cabeca,
         nivel_pe,
+        senha,
+        email,
       });
 
       res.status(201).json({ message: 'Competidor criado com sucesso.' });

@@ -7,13 +7,21 @@ import { DbEventsRepository } from '../Repositories/EventsRepository';
 import { EventController } from '../Controllers/EventController';
 import { DbRulesRepository } from '../Repositories/RulesRepository';
 import { DbEventWithRulesRepository } from '../Repositories/EventWithRulesRepository';
+import { GivewayController } from '../Controllers/GivewayController';
+import { DbGivewayRepository } from '../Repositories/GivewayRepository';
+import { GivewayUseCase } from '../Services/Giveway-use-case';
+import { AuthenticateController } from '../Controllers/AuthenticateController';
+import { authMiddleware } from '../middlewares/auth';
 
 export const competidorRoutes = Router();
 export const eventRoutes = Router();
+export const subscription = Router();
 
 const competitorRepository = new DbCompetidorRepository();
 const competitor = new CompetitorService(competitorRepository);
 const competitorController = new CompetitorController(competitor);
+
+const authenticateController = new AuthenticateController();
 
 const ruleRepository = new DbRulesRepository();
 const eventRulesRepository = new DbEventWithRulesRepository();
@@ -24,17 +32,28 @@ const event = new EventUseCase(
   ruleRepository,
   eventRulesRepository
 );
-
 const eventController = new EventController(event);
+
+const givewayRepository = new DbGivewayRepository();
+const giveway = new GivewayUseCase(givewayRepository);
+const givewayController = new GivewayController(giveway);
 
 competidorRoutes.get('/', competitorController.index);
 competidorRoutes.get('/:id', competitorController.show);
 competidorRoutes.post('/', competitorController.insert);
-competidorRoutes.put('/:id');
-competidorRoutes.delete('/:id');
+competidorRoutes.post('/sessions', authenticateController.authenticate);
 
-eventRoutes.get('/', eventController.index);
+// competidorRoutes.put('/:id');
+// competidorRoutes.delete('/:id');
+
+eventRoutes.get('/', authMiddleware, eventController.index);
 eventRoutes.get('/:id', eventController.show);
 eventRoutes.post('/', eventController.insert);
 // competidorRoutes.put('/:id');
 eventRoutes.delete('/:id', eventController.delete);
+
+// subscription.get('/', givewayController.index);
+// subscription.get('/:id', givewayController.show);
+subscription.post('/', givewayController.insert);
+// competidorRoutes.put('/:id');
+// subscription.delete('/:id', givewayController.delete);

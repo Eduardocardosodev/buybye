@@ -10,12 +10,22 @@ export class DbCompetidorRepository implements CompetitorRepository {
       nome_competidor: prismaUser.nome_competidor,
       nivel_cabeca: prismaUser.nivel_cabeca,
       nivel_pe: prismaUser.nivel_pe,
+      senha: prismaUser.senha,
+      email: prismaUser.email,
     };
   }
 
   public async getCompetidores(): Promise<CompetidorDTO[]> {
     return await prismaClient.competidores.findMany({
       orderBy: [{ id: 'desc' }],
+    });
+  }
+
+  public async findByEmail(email: string): Promise<Competidor | null> {
+    return await prismaClient.competidores.findUnique({
+      where: {
+        email,
+      },
     });
   }
 

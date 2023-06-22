@@ -13,6 +13,8 @@ datasource db {
 model Competidores {
   id              Int    @id @default(autoincrement())
   nome_competidor String
+  email           String @unique
+  senha           String @default("")
   nivel_cabeca    Int
   nivel_pe        Int
 
