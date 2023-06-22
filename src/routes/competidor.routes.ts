@@ -38,8 +38,8 @@ const givewayRepository = new DbGivewayRepository();
 const giveway = new GivewayUseCase(givewayRepository);
 const givewayController = new GivewayController(giveway);
 
-competidorRoutes.get('/', competitorController.index);
-competidorRoutes.get('/:id', competitorController.show);
+competidorRoutes.get('/', authMiddleware, competitorController.index);
+competidorRoutes.get('/:id', authMiddleware, competitorController.show);
 competidorRoutes.post('/', competitorController.insert);
 competidorRoutes.post('/sessions', authenticateController.authenticate);
 
@@ -47,13 +47,13 @@ competidorRoutes.post('/sessions', authenticateController.authenticate);
 // competidorRoutes.delete('/:id');
 
 eventRoutes.get('/', authMiddleware, eventController.index);
-eventRoutes.get('/:id', eventController.show);
-eventRoutes.post('/', eventController.insert);
+eventRoutes.get('/:id', authMiddleware, eventController.show);
+eventRoutes.post('/', authMiddleware, eventController.insert);
 // competidorRoutes.put('/:id');
-eventRoutes.delete('/:id', eventController.delete);
+eventRoutes.delete('/:id', authMiddleware, eventController.delete);
 
 // subscription.get('/', givewayController.index);
 // subscription.get('/:id', givewayController.show);
-subscription.post('/', givewayController.insert);
+subscription.post('/', authMiddleware, givewayController.insert);
 // competidorRoutes.put('/:id');
 // subscription.delete('/:id', givewayController.delete);
