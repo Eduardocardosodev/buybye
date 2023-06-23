@@ -11,10 +11,14 @@ datasource db {
 }
 
 model Competidores {
-  id              Int    @id @default(autoincrement())
-  nome_competidor String
-  nivel_cabeca    Int
-  nivel_pe        Int
+  id                     Int                @id @default(autoincrement())
+  nome_competidor        String
+  email                  String             @unique
+  senha                  String             @default("")
+  nivel_cabeca           Int
+  nivel_pe               Int
+  inscricaoSorteioCabeca InscricaoSorteio[] @relation(name: "id_compet_cabeca")
+  inscricaoSorteioPe     InscricaoSorteio[] @relation(name: "id_compet_pe")
 
   @@map("competidor")
 }
@@ -56,12 +60,18 @@ model Premios {
 }
 
 model InscricaoSorteio {
-  id               Int      @id @default(autoincrement())
-  id_compet_cabeca Int
-  id_compet_pe     Int
-  qtd_inscricao    Int
-  evento           Eventos? @relation(references: [id], fields: [id_evento])
-  id_evento        Int?
+  id Int @id @default(autoincrement())
+
+  competidorCab    Competidores? @relation(references: [id], fields: [id_compet_cabeca], name: "id_compet_cabeca")
+  id_compet_cabeca Int?
+
+  competidorPe Competidores? @relation(references: [id], fields: [id_compet_pe], name: "id_compet_pe")
+  id_compet_pe Int?
+
+  qtd_inscricao Int
+
+  evento    Eventos? @relation(references: [id], fields: [id_evento])
+  id_evento Int?
 
   @@map("inscricao_sorteio")
 }
