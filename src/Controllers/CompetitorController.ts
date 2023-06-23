@@ -64,4 +64,22 @@ export class CompetitorController {
       console.log(error.message);
     }
   };
+
+  public realizarSorteio = async (req: Request, res: Response) => {
+    const idEvento = Number(req.params.id);
+
+    try {
+      const competidoresSorteados =
+        await this.competitorService.realizarSorteio(idEvento);
+
+      return res.status(200).json({
+        competidoresSorteados,
+      });
+    } catch (error: any) {
+      console.log(error.message);
+      res.status(500).json({
+        error: 'Erro ao realizar o sorteio.',
+      });
+    }
+  };
 }

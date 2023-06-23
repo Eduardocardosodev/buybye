@@ -20,6 +20,27 @@ export class CompetitorService {
     };
   }
 
+  public async realizarSorteio(idEvento: number): Promise<Competidor[]> {
+    const inscricoes = await this.competitorRepository.findByEvento(idEvento);
+
+    const competidores = inscricoes.map((inscricao) => {
+      return {
+        competidor: inscricao.competidorCab,
+        nivelTotal:
+          (inscricao.competidorCab ? inscricao.competidorCab.nivel_cabeca : 0) +
+          (inscricao.competidorPe ? inscricao.competidorPe.nivel_pe : 0),
+      };
+    });
+
+    competidores.sort((a, b) => a.nivelTotal - b.nivelTotal);
+
+    const competidoresNonNull = competidores.filter(
+      (item) => item.competidor !== null
+    );
+
+    return competidoresNonNull.slice(0, 2).map((item) => item.competidor!);
+  }
+
   public async getCompetitors(): Promise<Competidor[]> {
     const competitors = await this.competitorRepository.getCompetidores();
 

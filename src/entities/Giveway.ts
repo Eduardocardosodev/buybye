@@ -1,14 +1,14 @@
 export class Giveway {
   id: number;
-  id_compet_cabeca: number;
-  id_compet_pe: number;
+  id_compet_cabeca: number | null;
+  id_compet_pe: number | null;
   qtd_inscricao: number;
   id_evento: number | null;
 
   constructor(
     id: number,
-    id_compet_cabeca: number,
-    id_compet_pe: number,
+    id_compet_cabeca: number | null,
+    id_compet_pe: number | null,
     qtd_inscricao: number,
     id_evento: number | null
   ) {

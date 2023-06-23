@@ -1,6 +1,7 @@
 import { prismaClient } from '../database/prisma';
 import { CompetidorDTO, CreateCompetidorDTO } from '../dto/CompetidorDTO';
 import { Competidor } from '../entities/Competidor';
+import { InscricaoSorteio } from '../entities/SubscribeGiveway';
 import { CompetitorRepository } from './competitor-repository';
 
 export class DbCompetidorRepository implements CompetitorRepository {
@@ -13,6 +14,17 @@ export class DbCompetidorRepository implements CompetitorRepository {
       senha: prismaUser.senha,
       email: prismaUser.email,
     };
+  }
+
+  public async findByEvento(idEvento: number): Promise<InscricaoSorteio[]> {
+    return await prismaClient.inscricaoSorteio.findMany({
+      where: { id_evento: idEvento },
+      include: {
+        competidorCab: true,
+        competidorPe: true,
+        evento: true,
+      },
+    });
   }
 
   public async getCompetidores(): Promise<CompetidorDTO[]> {

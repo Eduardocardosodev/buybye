@@ -22,12 +22,8 @@ export class DbEventWithRulesRepository implements EventRulesRepository {
           data: eventData,
         });
 
-        console.log(eventData);
-
         // Cria as regras dentro da transação
         for (const rule of ruleData) {
-          console.log(rule, ruleData);
-
           const { qtd_corrida, soma_nivel } = rule;
 
           const createdRule = await prisma.regrasEvento.create({

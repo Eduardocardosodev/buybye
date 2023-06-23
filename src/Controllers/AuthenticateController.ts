@@ -13,12 +13,12 @@ export class AuthenticateController {
         senha,
       });
 
-      return res
-        .status(200)
-        .json({
-          message: 'Logado com sucesso!',
-          token: authenticateCompetitor.token,
-        });
+      console.log(authenticateCompetitor.competitor);
+
+      return res.status(200).json({
+        competitor: authenticateCompetitor.competitor,
+        token: authenticateCompetitor.token,
+      });
     } catch (error) {
       if (error instanceof InvalidCredentialsError) {
         return res.status(400).json({

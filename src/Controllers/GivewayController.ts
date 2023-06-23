@@ -18,13 +18,15 @@ export class GivewayController {
     try {
       // const eventUseCase = makeEventUseCase();
 
-      const { id_compet_cabeca, id_compet_pe, qtd_inscricao, id_evento } =
-        req.body;
+      const { qtd_inscricao, id_evento } = req.body;
+
+      const selectedCompetitorId = req.competitor?.id || null;
+      const isCabeca = req.body.escolha === 'cabeca';
 
       await this.givewayUseCase.createGiveway(
         {
-          id_compet_cabeca,
-          id_compet_pe,
+          id_compet_cabeca: isCabeca ? selectedCompetitorId : null,
+          id_compet_pe: !isCabeca ? selectedCompetitorId : null,
           qtd_inscricao,
         },
         id_evento

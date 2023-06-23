@@ -42,6 +42,7 @@ competidorRoutes.get('/', authMiddleware, competitorController.index);
 competidorRoutes.get('/:id', authMiddleware, competitorController.show);
 competidorRoutes.post('/', competitorController.insert);
 competidorRoutes.post('/sessions', authenticateController.authenticate);
+competidorRoutes.get('/sorteio/:id', competitorController.realizarSorteio);
 
 // competidorRoutes.put('/:id');
 // competidorRoutes.delete('/:id');

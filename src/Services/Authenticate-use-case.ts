@@ -30,7 +30,13 @@ export class AuthenticateUseCase {
     const doesPasswordMatches = await compare(senha, competitor.senha);
 
     const token = JWT.sign(
-      { email: competitor.email },
+      {
+        id: competitor.id,
+        nome_competidor: competitor.nome_competidor,
+        nivel_cabeca: competitor.nivel_cabeca,
+        nivel_pe: competitor.nivel_pe,
+        email: competitor.email,
+      },
       process.env.JWT_SECRET || '',
       {
         expiresIn: '1h',

@@ -1,6 +1,7 @@
 import { NextFunction, Request, Response } from 'express';
 import JWT, { Secret } from 'jsonwebtoken';
 import { AcessInvalid } from '../errors/AcessInvalid';
+import { Competidor } from '../entities/Competidor';
 
 export async function authMiddleware(
   req: Request,
@@ -17,7 +18,7 @@ export async function authMiddleware(
 
     const verified = await JWT.verify(token, process.env.JWT_SECRET || '');
 
-    req.competitor = verified as string;
+    req.competitor = verified as Competidor;
 
     next();
   } catch (error: any) {

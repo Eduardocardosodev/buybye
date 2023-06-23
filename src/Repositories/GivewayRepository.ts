@@ -11,11 +11,7 @@ export class DbGivewayRepository implements GivewayRepository {
         id_compet_cabeca: data.id_compet_cabeca,
         id_compet_pe: data.id_compet_pe,
         qtd_inscricao: data.qtd_inscricao,
-        evento: {
-          connect: {
-            id: id_evento,
-          },
-        },
+        id_evento,
       },
     });
 
