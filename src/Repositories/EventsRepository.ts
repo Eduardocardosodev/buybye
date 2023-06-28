@@ -18,6 +18,11 @@ export class DbEventsRepository implements EventsRepository {
   public async getEvent(id: number): Promise<Events | null> {
     return await prismaClient.eventos.findUnique({
       where: { id },
+      include: {
+        premios: true,
+        regrasEvento: true,
+        inscricaoSorteio: true,
+      },
     });
   }
 

@@ -31,7 +31,6 @@ export class EventUseCase {
   }
 
   private mapPrismaEventToEventWithRulesDTO(prismaUser: EventDTO): Events {
-    console.log('teste');
     return {
       id: prismaUser.id,
       nome_evento: prismaUser.nome_evento,
@@ -40,8 +39,6 @@ export class EventUseCase {
       data_hr_prova: prismaUser.data_hr_prova,
       regras:
         prismaUser.regrasEvento?.map((ruleDTO: RuleDTO) => {
-          console.log('ruleDTO:', ruleDTO);
-
           return {
             id: ruleDTO.id,
             id_evento: ruleDTO.id_evento,
@@ -80,7 +77,7 @@ export class EventUseCase {
       throw new EventNotFound();
     }
 
-    return this.mapPrismaEventToEventDTO(event);
+    return this.mapPrismaEventToEventWithRulesDTO(event);
   }
 
   public async createEvent(
